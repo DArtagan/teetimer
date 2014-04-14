@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'south',
     'authtools',
     'guardian',
+    'djrill',
     'bootstrap3',
     'accounts',
     'tracker',
@@ -114,6 +115,9 @@ if os.getcwd() == "/app":
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
     WEB_URL = 'http://secure-thicket-4638.herokuapp.com'
+    DEFAULT_FROM_EMAIL = 'app24113171@heroku.com'
+    MANDRILL_API_KEY = "_Gve6gHvBET4HKzgXKakIA"
+    EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

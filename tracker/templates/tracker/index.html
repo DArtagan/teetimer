@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+
+{% block title %}
+TeeTimes
+{% endblock %}
+
+{% block add_link %}
+<li>
+  <a href="{% url 'tracker:create' %}">
+    <span class="glyphicon glyphicon-plus"></span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+  {% include "tracker/table.html" with times=object_list only %}
+{% endblock %}

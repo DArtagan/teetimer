@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load event_tags %}
+
+{% block title %}
+{% endblock %}
+
+{% block add_link %}
+<li><a href="{% url 'tracker:create' %}"><span class="glyphicon glyphicon-plus"></span></a></li>
+{% endblock %}
+
+{% block content %}
+  {% for teetime in object_list %}
+    <h2>{{ teetime.time|date:'g:i A' }}</h2>
+    <table>
+      {% for person in teetime.people.all %}
+        <tr><td>{{ person.name }}</td></tr>
+      {% endfor %}
+      {% if teetime.people.all|length < teetime.slots %}
+        {% for i in teetime.openings %}
+        <tr><td><a href="{{ teetime.get_claim_url }}">Available</a></td></tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load event_tags %}
+
+{% block title %}
+{{ object }}
+{% endblock %}
+
+{% block add_link %}
+<li><a href="{% url 'tracker:create' %}"><span class="glyphicon glyphicon-plus"></span></a></li>
+{% endblock %}
+
+{% block edit_link %}
+<li><a href="{{ object.get_update_url }}">Edit</a></li>
+{% endblock %}
+
+{% block content %}
+  <p>{{ object.slots }}</p>
+  <table>
+    {% for person in object.people.all %}
+      <tr><td>{{ person.name }}</td></tr>
+    {% endfor %}
+    {% if object.people.all|length < object.slots %}
+      {% for i in openings %}
+      <tr><td><a href="{{ object.get_claim_url }}">Available</a></td></tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+{% endblock %}
