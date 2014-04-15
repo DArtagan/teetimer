@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 
-{% load bootstrap3 %}
 {% load calendar_tags %}
 
 {% block title %}
-TeeTimes
+{{ title }}
 {% endblock %}
 
 {% block add_link %}
@@ -17,5 +16,4 @@ TeeTimes
 
 {% block content %}
   {% include "tracker/calendars.html" %}
-  {% include "tracker/table.html" with times=object_list only %}
 {% endblock %}

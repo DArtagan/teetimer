@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% load event_tags %}
+
+{% load calendar_tags %}
 
 {% block title %}
 {% endblock %}
@@ -9,6 +10,8 @@
 {% endblock %}
 
 {% block content %}
+  {% include "tracker/calendars.html" %}
+  <h2>{{ title }}</h2>
   {% for teetime in object_list %}
     <h2>{{ teetime.time|date:'g:i A' }}</h2>
     <table>

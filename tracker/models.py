@@ -21,7 +21,7 @@ class TeeTime(models.Model):
         return reverse('tracker:claim', args=[self.pk])
 
     def get_date_url(self):
-        return reverse('tracker:date', args=[(teetime.time).strftime('%Y-%m-%d')])
+        return reverse('tracker:day', args=[(teetime.time).strftime('%Y-%m-%d')])
 
     def __unicode__(self):
         return self.time
