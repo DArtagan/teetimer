@@ -1,3 +1,14 @@
 body { padding-top: 70px; }
 
+div.calendars {
+    margin-top: 30px;
+}
+
+div.calendars > .row table {
+    margin: 0px auto;
+}
+
+div.calendars > .row td {
+    width: 35px;
+}
 

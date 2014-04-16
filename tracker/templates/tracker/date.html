@@ -1,19 +1,10 @@
 {% extends "base.html" %}
 
-{% load calendar_tags %}
-
-{% block title %}
-{% endblock %}
-
-{% block add_link %}
-<li><a href="{% url 'tracker:create' %}"><span class="glyphicon glyphicon-plus"></span></a></li>
-{% endblock %}
-
 {% block content %}
   {% include "tracker/calendars.html" %}
   <h2>{{ title }}</h2>
   {% for teetime in object_list %}
-    <h2>{{ teetime.time|date:'g:i A' }}</h2>
+  <h3>{{ teetime.time|date:'g:i A' }}</h3>{% if perms.tracker.edit_teetime %}<a href="{{ teetime.get_update_url }}">Edit</a>{% endif %}
     <table>
       {% for person in teetime.people.all %}
         <tr><td>{{ person.name }}</td></tr>

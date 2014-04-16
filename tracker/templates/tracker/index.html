@@ -1,21 +1,5 @@
 {% extends 'base.html' %}
 
-{% load bootstrap3 %}
-{% load calendar_tags %}
-
-{% block title %}
-TeeTimes
-{% endblock %}
-
-{% block add_link %}
-<li>
-  <a href="{% url 'tracker:create' %}">
-    <span class="glyphicon glyphicon-plus"></span>
-  </a>
-</li>
-{% endblock %}
-
 {% block content %}
   {% include "tracker/calendars.html" %}
-  {% include "tracker/table.html" with times=object_list only %}
 {% endblock %}

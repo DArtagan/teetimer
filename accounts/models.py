@@ -8,6 +8,9 @@ class User(AbstractNamedUser):
 
     class Meta:
         db_table = 'auth_user'
+        permissions = (
+            ('manager_promotions', 'Manage promotions'),
+        )
 
     def __unicode__(self):
         return self.name

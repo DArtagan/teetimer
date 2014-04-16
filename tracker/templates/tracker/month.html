@@ -1,19 +1,5 @@
 {% extends 'base.html' %}
 
-{% load calendar_tags %}
-
-{% block title %}
-{{ title }}
-{% endblock %}
-
-{% block add_link %}
-<li>
-  <a href="{% url 'tracker:create' %}">
-    <span class="glyphicon glyphicon-plus"></span>
-  </a>
-</li>
-{% endblock %}
-
 {% block content %}
   {% include "tracker/calendars.html" %}
 {% endblock %}
