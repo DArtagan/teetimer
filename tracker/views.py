@@ -12,7 +12,7 @@ from tracker.models import TeeTime
 class TeeTimeMixin(object):
     model = TeeTime
     def get_success_url(self):
-        return reverse('tracker:detail', kwargs={'pk': self.object.pk})
+        return reverse('tracker:day', kwargs={'date': (self.object.time).strftime('%Y-%m-%d')})
 
 class Index(TeeTimeMixin, LoginRequiredMixin, ListView):
     template_name = 'tracker/index.html'

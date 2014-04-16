@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from tracker.models import TeeTime
+
+class ProperDisplay(admin.ModelAdmin):
+    list_display = ('__unicode__',)
+
+admin.site.register(TeeTime, ProperDisplay)

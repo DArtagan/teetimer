@@ -18,7 +18,6 @@ class TeeTimeCalendar(HTMLCalendar):
             cssclass = self.cssclasses[weekday]
             if date.today() == date(self.year, self.month, day):
                 cssclass += ' today'
-            print(self.teetimes)
             if (self.month in self.teetimes) and (day in self.teetimes[self.month]):
                 cssclass += ' slots'
                 body = []
@@ -36,9 +35,8 @@ class TeeTimeCalendar(HTMLCalendar):
     def group_by_day(self, teetimes):
         day = lambda teetime: teetime.time.day
         month = lambda teetime: teetime.time.month
-        processed = dict([(month, dict([(day, list(cases)) for day, cases in groupby(items, day)])) for month, items in groupby(teetimes, month)])
-        print(processed)
-        return processed
+        return dict([(month, dict([(day, list(cases)) for day, cases in groupby(items, day)])) for month, items in groupby(teetimes, month)])
+
 
     def day_cell(self, cssclass, body):
         return '<td class="%s">%s</td>' % (cssclass, body)

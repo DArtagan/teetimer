@@ -4,7 +4,7 @@
   {% include "tracker/calendars.html" %}
   <h2>{{ title }}</h2>
   {% for teetime in object_list %}
-  <h3>{{ teetime.time|date:'g:i A' }}</h3>{% if perms.tracker.edit_teetime %}<a href="{{ teetime.get_update_url }}">Edit</a>{% endif %}
+  <h3>{{ teetime.time|date:'g:i A' }} - {% if perms.tracker.edit_teetime %}<a href="{{ teetime.get_update_url }}">Edit</a>{% endif %}</h3>    
     <table>
       {% for person in teetime.people.all %}
         <tr><td>{{ person.name }}</td></tr>
