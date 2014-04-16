@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'accounts',
     'tracker',
+    'extra',
 )
 
 MIDDLEWARE_CLASSES = (
