@@ -2,6 +2,6 @@
 
 {% block content %}
   {% include "tracker/calendars.html" %}
-  <h2>Updates{% if perms.extra.edit_textbit %} - <a href="{{ textbit.get_update_url }}">Edit</a>{% endif %}</h2>
+  <h2>Updates{% if perms.extra.change_textbit %} - <a href="{{ textbit.get_update_url }}">Edit</a>{% endif %}</h2>
   {{ textbit.content|safe }}
 {% endblock %}
