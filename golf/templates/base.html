@@ -21,21 +21,27 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'index' %}">TeeTimer</a>
+          <a class="navbar-brand" href="{% url 'index' %}">Long Shots</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="{% url 'tracker:index' %}">Times</a></li>
+            <li><a href="{% url 'tracker:index' %}">Tee Times</a></li>
+            <li><a href="{% url 'accounts:members' %}">Members</a></li>
+            <li><a href="http://www.raccooncreek.com/">Course</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            {% block edit_link %}{% endblock %}
-            {% block add_link %}{% endblock %}
+            {% if perms.tracker.change_teetime %}
+              {% block edit_link %}{% endblock %}
+            {% endif %}
+            {% if perms.tracker.add_teetime %}
+              <li><a href="{% url 'tracker:create' %}"><span class="glyphicon glyphicon-plus"></span></a></li>
+            {% endif %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.name }} <span class="caret"></span></a>
               <ul class="dropdown-menu">
+                <li><a href="/accounts/update_profile">Update Profile</a></li>
                 <li><a href="/accounts/password_reset">Reset Password</a></li>
-                <li><a href="/accounts/update_email">Change Email</a></li>
                 {% if perms.accounts.add_user %}
                   <li><a href="/accounts/add_user">Add User</a></li>
                 {% endif %}
@@ -46,9 +52,6 @@
         </div><!-- /.navbar-collapse -->
       </div>
     </header>
-    <div class="col-md-offset-1">
-      <h1>{% block title %}{% endblock %}</h1>
-    </div>
     <div class="col-md-10 col-md-offset-1">
       {% block content %}{% endblock content %}
     </div>
