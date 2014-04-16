@@ -4,9 +4,9 @@ from accounts.views import *
 
 urlpatterns = patterns('',
     # Companies
-    url(r'^admin_users/$', Admins.as_view(), name='admin_users'),
-    url(r'^admin_users/promote/(?P<pk>\d+)/$', promote, name='promote'),
-    url(r'^admin_users/demote/(?P<pk>\d+)/$', demote, name='demote'),
+    url(r'^members/$', Members.as_view(), name='members'),
+    url(r'^members/(?P<pk>\d+)/promote/$', promote, name='promote'),
+    url(r'^members/(?P<pk>\d+)/demote/$', demote, name='demote'),
     url(r'^add_user/$', AddUser.as_view(), name='add_user'),
     url(r'^update_profile/$', ProfileUpdate.as_view(), name='update_profile'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',

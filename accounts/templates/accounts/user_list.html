@@ -7,16 +7,24 @@
   <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Promote/Demote</th>
+        <th></th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        {% if perms.accounts.manager_promotions %}
+          <th>Promote/Demote</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
         {% if object.pk >= 0%}
           <tr>
-            <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
-            <td>{{ "+"|promote:object }}/{{ "-"|demote:object }}</td>
+            <td>{{ object }}</td>
+            <td>{{ object.phone }}</td>
+            <td><a href="mailto:{{object.email}}">{{ object.email }}</a></td>
+            {% if perms.accounts.manager_promotions %}
+              <td>{{ "<span class=\"glyphicon glyphicon-plus\"></span>"|promote:object }}/{{ "<span class=\"glyphicon glyphicon-minus\"></span>"|demote:object }}</td>
+            {% endif %}
           </tr>
         {% endif %}
       {% endfor %}

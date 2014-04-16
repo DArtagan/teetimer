@@ -20,9 +20,12 @@ class AddUser(LoginRequiredMixin, FormView):
         form.save()
         return super(AddUser, self).form_valid(form)
 
-class Admins(LoginRequiredMixin, ListView):
+class Members(LoginRequiredMixin, ListView):
     model = User
     template_name = 'accounts/user_list.html'
+
+    def get_queryset(self):
+        return User.objects.all().order_by('name')
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'accounts/update_profile.html'
@@ -38,11 +41,11 @@ def promote(request, pk):
     user = User.objects.get(pk=pk)
     g = Group.objects.get(name='manager')
     g.user_set.add(user)
-    return HttpResponseRedirect(reverse('accounts:admin_users'))
+    return HttpResponseRedirect(reverse('accounts:members'))
 
 @login_required
 def demote(request, pk):
     user = User.objects.get(pk=pk)
     g = Group.objects.get(name='manager')
     g.user_set.remove(user)
-    return HttpResponseRedirect(reverse('accounts:admin_users'))
+    return HttpResponseRedirect(reverse('accounts:members'))
