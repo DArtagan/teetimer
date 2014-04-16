@@ -1,7 +1,9 @@
 from django.db import models
 from authtools.models import AbstractNamedUser
+from localflavor.us.models import PhoneNumberField
 
 class User(AbstractNamedUser):
+    phone = PhoneNumberField()
 
     def username():
         return self.email

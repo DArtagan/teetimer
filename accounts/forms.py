@@ -1,5 +1,10 @@
 from django import forms
-from django.conf import settings
+from localflavor.us.forms import USPhoneNumberField
 
-class EmailForm(forms.Form):
-    email = forms.EmailField(label=(u'Email Address'))
+from accounts.models import User
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'email', 'phone']
+

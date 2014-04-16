@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'south',
     'authtools',
     'guardian',
+    'localflavor',
     'djrill',
     'bootstrap3',
     'accounts',
