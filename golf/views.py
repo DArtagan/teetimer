@@ -3,15 +3,16 @@ from guardian.mixins import LoginRequiredMixin
 from datetime import date
 
 from tracker.models import TeeTime
-from extra.models import TextBit
+from extra.models import TextBit, Title
 
 class Index(LoginRequiredMixin, TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
-        context['object_list'] = TeeTime.objects.all() 
         context['textbit'] = TextBit.objects.get(name='Updates')
+        context['title'] = Title.objects.get(name='Title')
+        context['object_list'] = TeeTime.objects.all() 
         today = date.today()
         context['month'] = "{0} {1}".format(today.year, today.month)
         if today.month == 12:
