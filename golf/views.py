@@ -11,7 +11,6 @@ class Index(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
         context['textbit'] = TextBit.objects.get(name='Updates')
-        context['title'] = Title.objects.get(name='Title')
         context['object_list'] = TeeTime.objects.all() 
         today = date.today()
         context['month'] = "{0} {1}".format(today.year, today.month)
