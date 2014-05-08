@@ -43,8 +43,6 @@ class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
         self.year, self.month, self.day = self.kwargs['date'].split('-')
         return super(Date, self).dispatch(request, *args, **kwargs)
 
-    def get_queryset(self):
-        return TeeTime.objects.filter(time__range=(datetime.combine(datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date(), time.min), datetime.combine(datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date(), time.max)))
 
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
