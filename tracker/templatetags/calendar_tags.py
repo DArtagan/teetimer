@@ -35,7 +35,7 @@ class TeeTimeCalendar(HTMLCalendar):
     def group_by_day(self, teetimes):
         day = lambda teetime: teetime.time.day
         month = lambda teetime: teetime.time.month
-        return dict([(month, dict([(day, list(cases)) for day, cases in groupby(items, day)])) for month, items in groupby(teetimes, month)])
+        return dict([(the_month, dict([(the_day, list(cases)) for the_day, cases in groupby(items, day)])) for the_month, items in groupby(teetimes, month)])
 
 
     def day_cell(self, cssclass, body):
