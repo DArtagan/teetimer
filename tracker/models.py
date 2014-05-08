@@ -24,4 +24,4 @@ class TeeTime(models.Model):
         return reverse('tracker:day', args=[(teetime.time).strftime('%Y-%m-%d')])
 
     def __unicode__(self):
-        return self.time
+        return self.time.strftime('%Y-%m-%d')
