@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% include "tracker/calendars.html" %}
+  {% include "tracker/calendars.html" with datetimes=object_list %}
 {% endblock %}

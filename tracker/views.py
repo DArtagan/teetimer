@@ -43,7 +43,6 @@ class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
         self.year, self.month, self.day = self.kwargs['date'].split('-')
         return super(Date, self).dispatch(request, *args, **kwargs)
 
-
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
         for instance in context['object_list']:
@@ -54,8 +53,13 @@ class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
             context['month_next'] = "{0} {1}".format(int(self.year) + 1, 1)
         else:
             context['month_next'] = "{0} {1}".format(self.year, int(self.month) + 1)
+        context['datetimes'] = TeeTime.objects.all()
         context['title'] = "{0} {1}, {2}".format(month_name[int(self.month)], self.day, self.year)
         return context
+
+    def get_queryset(self):
+        return TeeTime.objects.filter(time__range=(datetime.combine(datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date(), time.min), datetime.combine(datetime.strptime(self.kwargs['date'], '%Y-%m-%d').date(), time.max)))
+
 
 class Month(TeeTimeMixin, LoginRequiredMixin, ListView):
     template_name = 'tracker/month.html'
@@ -91,4 +95,10 @@ def claim(request, pk):
     teetime = TeeTime.objects.get(pk=pk)
     if teetime.slots > teetime.people.count():
         teetime.people.add(request.user)
+    return HttpResponseRedirect(reverse('tracker:day', kwargs={'date': (teetime.time).strftime('%Y-%m-%d')}))
+
+@login_required
+def unclaim(request, pk):
+    teetime = TeeTime.objects.get(pk=pk)
+    teetime.people.remove(request.user)
     return HttpResponseRedirect(reverse('tracker:day', kwargs={'date': (teetime.time).strftime('%Y-%m-%d')}))

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% include "tracker/calendars.html" %}
+  {% include "tracker/calendars.html" with datetimes=object_list %}
   <h2>Updates{% if perms.extra.change_textbit %} - <a href="{{ textbit.get_update_url }}">Edit</a>{% endif %}</h2>
   {{ textbit.content|safe }}
 {% endblock %}

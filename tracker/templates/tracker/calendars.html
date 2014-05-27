@@ -6,10 +6,10 @@
       {{ "Prev months <-"|prev_month:month }}
     </div>
     <div class="col-xs-4">
-      {{ object_list|teetime_calendar:month }}
+      {{ datetimes|teetime_calendar:month }}
     </div>
     <div class="col-xs-4">
-      {{ object_list|teetime_calendar:month_next }}
+      {{ datetimes|teetime_calendar:month_next }}
     </div>
     <div class="col-xs-1">
       {{ "Next months ->"|next_month:month }}

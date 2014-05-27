@@ -20,6 +20,9 @@ class TeeTime(models.Model):
     def get_claim_url(self):
         return reverse('tracker:claim', args=[self.pk])
 
+    def get_unclaim_url(self):
+        return reverse('tracker:unclaim', args=[self.pk])
+
     def get_date_url(self):
         return reverse('tracker:day', args=[(teetime.time).strftime('%Y-%m-%d')])
 
