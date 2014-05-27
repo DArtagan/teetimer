@@ -32,8 +32,9 @@ class Detail(TeeTimeMixin, LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
-        count = context['object'].slots - context['object'].people.count()
-        context['openings'] = range(0, count)
+        print(context['object'].Slot)
+        # count = context['object'].slots - context['object'].people.count()
+        # context['openings'] = range(0, count)
         return context
 
 class Date(TeeTimeMixin, LoginRequiredMixin, ListView):

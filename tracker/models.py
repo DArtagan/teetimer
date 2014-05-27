@@ -6,7 +6,6 @@ class TeeTime(models.Model):
     time = models.DateTimeField()
     date_edited = models.DateField(auto_now=True)
     slots = models.IntegerField()
-    people = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('tracker:detail', args=[self.pk])
@@ -28,3 +27,7 @@ class TeeTime(models.Model):
 
     def __unicode__(self):
         return self.time.strftime('%Y-%m-%d')
+
+class Slot(models.Model):
+    person = models.ManyToManyField(settings.AUTH_USER_MODEL, null=True, blank=True)
+    teetime = models.ForeignKey(TeeTime)
