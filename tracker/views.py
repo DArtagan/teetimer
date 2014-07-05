@@ -27,6 +27,14 @@ class Index(TeeTimeMixin, LoginRequiredMixin, ListView):
             context['month_next'] = "{0} {1}".format(today.year, today.month + 1)
         return context
 
+class Times(TeeTimeMixin, LoginRequiredMixin, ListView):
+    template_name = 'tracker/times.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TeeTimeMixin, self).get_context_data(**kwargs)
+        context['object_list'] = context['object_list'].filter(time__year=datetime.now().year)
+        return context
+
 class Detail(TeeTimeMixin, LoginRequiredMixin, DetailView):
     template_name = 'tracker/detail.html'
 
