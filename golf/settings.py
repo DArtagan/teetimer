@@ -75,11 +75,8 @@ ANONYMOUS_USER_ID = -1
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tempdb',
-        'USER': 'will',
-        'PASSWORD': 'ajax',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
