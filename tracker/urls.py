@@ -3,6 +3,7 @@ from tracker.views import *
 
 urlpatterns = patterns('',
     url(r'^$', Index.as_view(), name='index'),
+    url(r'^times/$', Times.as_view(), name='times'),
     url(r'^(?P<pk>\d+)/$', Detail.as_view(), name='detail'),
     url(r'^create/$', Create.as_view(), name='create'),
     url(r'^(?P<pk>\d+)/update/$', Update.as_view(), name='update'),
