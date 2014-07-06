@@ -12,3 +12,6 @@ div.calendars > .row td {
     width: 35px;
 }
 
+.table-teetime td {
+    width: 200px;
+}

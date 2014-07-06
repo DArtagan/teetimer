@@ -4,15 +4,20 @@
   {% include "tracker/calendars.html" with datetimes=datetimes %}
   <h2>{{ title }}</h2>
   {% for day, teetimes in object_list %}
-  <h3>{{ day.time|date:'g:i A' }}</h3>    
-    <table>
-      {% for teetime in teetimes %}
+    <h3>{{ day.time|date:'g:i A' }}</h3>    
+    <table class="table-teetime table table-condensed table-striped">
+    {% for teetime in teetimes %}
+      <tr>
       {% if teetime.person.name == None %}
-      <tr><td><a href="{{ teetime.get_claim_url }}">Available</a></td></tr>
+        <td><a href="{{ teetime.get_claim_url }}">Available</a></td>
       {% else %}
-        <tr><td>{{ teetime.person.name }} - <a href="{{ teetime.get_unclaim_url }}">Drop</a></td></tr>
+        <td>{{ teetime.person.name }} - <a href="{{ teetime.get_unclaim_url }}">Drop</a></td>
       {% endif %}
-      {% endfor %}
+      {% if perms.tracker.change_teetime %}
+        <td><a href="{{ teetime.get_update_url }}">Edit</a></td>
+      {% endif %}
+      </tr>
+    {% endfor %}
     </table>
   {% endfor %}
 {% endblock %}

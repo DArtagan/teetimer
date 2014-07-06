@@ -97,7 +97,6 @@ class Month(TeeTimeMixin, LoginRequiredMixin, ListView):
         return context
 
 class Create(TeeTimeMixin, LoginRequiredMixin, CreateView):
-    #form_class = 'CreateForm'
     template_name = 'tracker/create.html'
 
 class Update(TeeTimeMixin, LoginRequiredMixin, UpdateView):
