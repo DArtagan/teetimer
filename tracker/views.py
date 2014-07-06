@@ -1,6 +1,6 @@
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.core.urlresolvers import reverse
 from guardian.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,7 @@ from datetime import datetime, time, date
 from calendar import month_name
 
 from tracker.models import TeeTime
+from tracker.forms import *
 
 class TeeTimeMixin(object):
     model = TeeTime
@@ -46,10 +47,17 @@ class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
-        for instance in context['object_list']:
-            count = instance.slots - instance.people.count()
-            instance.openings = range(0, count)
+        context['teetime_list'].filter(time__year=self.year, time__month=self.month, time__day=self.day)
         context['month'] = "{0} {1}".format(self.year, self.month)
+        raw_list = context['object_list']
+        context['object_list'] = {}
+        for slot in raw_list:
+            if slot.time not in context['object_list']:
+                context['object_list'][slot.time] = []
+            temp = context['object_list'][slot.time]
+            temp.append(slot)
+            context['object_list'][slot.time] = temp
+        context['object_list'] = sorted(context['object_list'].items())
         if self.month == '12':
             context['month_next'] = "{0} {1}".format(int(self.year) + 1, 1)
         else:
@@ -81,6 +89,7 @@ class Month(TeeTimeMixin, LoginRequiredMixin, ListView):
         return context
 
 class Create(TeeTimeMixin, LoginRequiredMixin, CreateView):
+    #form_class = 'CreateForm'
     template_name = 'tracker/create.html'
 
 class Update(TeeTimeMixin, LoginRequiredMixin, UpdateView):
@@ -94,12 +103,13 @@ class Delete(TeeTimeMixin, LoginRequiredMixin, DeleteView):
 @login_required
 def claim(request, pk):
     teetime = TeeTime.objects.get(pk=pk)
-    if teetime.slots > teetime.people.count():
-        teetime.people.add(request.user)
+    teetime.person = request.user
+    teetime.save()
     return HttpResponseRedirect(reverse('tracker:day', kwargs={'date': (teetime.time).strftime('%Y-%m-%d')}))
 
 @login_required
 def unclaim(request, pk):
     teetime = TeeTime.objects.get(pk=pk)
-    teetime.people.remove(request.user)
+    teetime.person = None
+    teetime.save()
     return HttpResponseRedirect(reverse('tracker:day', kwargs={'date': (teetime.time).strftime('%Y-%m-%d')}))

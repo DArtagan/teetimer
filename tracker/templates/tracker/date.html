@@ -3,21 +3,16 @@
 {% block content %}
   {% include "tracker/calendars.html" with datetimes=datetimes %}
   <h2>{{ title }}</h2>
-  {% for teetime in object_list %}
-  <h3>{{ teetime.time|date:'g:i A' }} - {% if perms.tracker.change_teetime %}<a href="{{ teetime.get_update_url }}">Edit</a>{% endif %}</h3>    
+  {% for day, teetimes in object_list %}
+  <h3>{{ day.time|date:'g:i A' }}</h3>    
     <table>
-      {% for person in teetime.people.all %}
-        {% if person.name in user.name %}
-          <tr><td>{{ person.name }} - <a href="{{ teetime.get_unclaim_url }}">Drop</a></td></tr>
-        {% else %}
-          <tr><td>{{ person.name }}</td></tr>
-        {% endif %}
-      {% endfor %}
-      {% if teetime.people.all|length < teetime.slots %}
-        {% for i in teetime.openings %}
-        <tr><td><a href="{{ teetime.get_claim_url }}">Available</a></td></tr>
-        {% endfor %}
+      {% for teetime in teetimes %}
+      {% if teetime.person.name == None %}
+      <tr><td><a href="{{ teetime.get_claim_url }}">Available</a></td></tr>
+      {% else %}
+        <tr><td>{{ teetime.person.name }} - <a href="{{ teetime.get_unclaim_url }}">Drop</a></td></tr>
       {% endif %}
+      {% endfor %}
     </table>
   {% endfor %}
 {% endblock %}
