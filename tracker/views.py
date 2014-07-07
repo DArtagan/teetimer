@@ -96,16 +96,27 @@ class Month(TeeTimeMixin, LoginRequiredMixin, ListView):
         context['title'] = "{0} {1}".format(month_name[int(self.month)], self.year)
         return context
 
-class Create(TeeTimeMixin, LoginRequiredMixin, CreateView):
+class Create(TeeTimeMixin, LoginRequiredMixin, FormView):
     template_name = 'tracker/create.html'
+    form_class = CreateForm
+
+    def form_valid(self, form):
+        self.teetime_time = form.instance.time
+        form.instance.pk = None
+        repeat = form.save(commit=False)
+        for i in range(0,int(form.data['number'])):
+            repeat.pk = None
+            repeat.save()
+        return super(Create, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('tracker:day', kwargs={'date': (self.teetime_time).strftime('%Y-%m-%d')})
 
 class Update(TeeTimeMixin, LoginRequiredMixin, UpdateView):
     template_name = 'tracker/update.html'
 
 class Delete(TeeTimeMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tracker/delete.html'
-    def get_success_url(self):
-        return reverse('index')
 
 @login_required
 def claim(request, pk):
