@@ -42,8 +42,6 @@ class Detail(TeeTimeMixin, LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
         print(context['object'].Slot)
-        # count = context['object'].slots - context['object'].people.count()
-        # context['openings'] = range(0, count)
         return context
 
 class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
@@ -104,7 +102,7 @@ class Create(TeeTimeMixin, LoginRequiredMixin, FormView):
         self.teetime_time = form.instance.time
         form.instance.pk = None
         repeat = form.save(commit=False)
-        for i in range(0,int(form.data['number'])):
+        for i in range(0,int(form.data['slots'])):
             repeat.pk = None
             repeat.save()
         return super(Create, self).form_valid(form)
