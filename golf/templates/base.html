@@ -46,6 +46,9 @@
                 {% if perms.accounts.add_user %}
                   <li><a href="/accounts/add_user">Add User</a></li>
                 {% endif %}
+                {% if perms.is_staff %}
+                  <li><a href="/admin">Admin Backend</a></li>
+                {% endif %}
                 <li><a href="/accounts/logout">Logout</a></li>
               </ul>
             </li>

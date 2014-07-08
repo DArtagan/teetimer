@@ -11,7 +11,7 @@
       {% if teetime.person.name == None %}
         <td><a href="{{ teetime.get_claim_url }}">Claim</a></td>
       {% else %}
-      <td>{{ teetime.person.name }}{% if teetime.droppable %} - <a href="{{ teetime.get_unclaim_url }}">Drop</a>{% endif %}</td>
+      <td>{{ teetime.person.name }}{% if teetime.droppable and teetime.person.email == user.email %} - <a href="{{ teetime.get_unclaim_url }}">Drop</a>{% endif %}</td>
       {% endif %}
       {% if perms.tracker.change_teetime %}
         <td><a href="{{ teetime.get_update_url }}">Edit</a></td>
