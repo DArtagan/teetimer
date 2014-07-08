@@ -1,6 +1,7 @@
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse
 from guardian.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -119,6 +120,13 @@ class Create(TeeTimeMixin, LoginRequiredMixin, FormView):
 
 class Update(TeeTimeMixin, LoginRequiredMixin, UpdateView):
     template_name = 'tracker/update.html'
+    form_class = modelform_factory(TeeTime, widgets = {
+        'time': DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
+                                        "useSeconds": False,
+                                        "minuteStepping": 5,
+                                        "sideBySide": True,}),
+    })
+
 
 class Delete(TeeTimeMixin, LoginRequiredMixin, DeleteView):
     template_name = 'tracker/delete.html'

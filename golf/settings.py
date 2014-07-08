@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'localflavor',
     'djrill',
     'bootstrap3',
+    'bootstrap3_datetime',
     'accounts',
     'tracker',
     'extra',
