@@ -1,0 +1,20 @@
+<table class="table table-striped table-hover">
+  <tbody>
+  {% for teetime in list %}
+    <tr>
+      <td>{% ifchanged %}{{ teetime.time|date:'F' }}{% endifchanged %}</td>
+      <td>{% ifchanged %}{{ teetime.time|date:'l j' }}{% endifchanged %}</td>
+      <td>{% ifchanged teetime.time|date:'l j' teetime.time|date:'g:i A' %}{{ teetime.time|date:'g:i A' }}{% endifchanged %}</td>
+      {% if teetime.person.name == None %}
+      <td><a href="{{ teetime.get_claim_url }}">Claim</a></td>
+      {% else %}
+      <td>{{ teetime.person.name }}{% if teetime.droppable %} - <a href="{{ teetime.get_unclaim_url }}">Drop</a>{% endif %}</td>
+      {% endif %}
+      {% if perms.tracker.change_teetime %}
+      <td><a href="{{ teetime.get_update_url }}">Edit</a></td>
+      {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+

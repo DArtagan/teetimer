@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from datetime import datetime, timezone, timedelta
 
 class TeeTime(models.Model):
     time = models.DateTimeField()
@@ -24,6 +25,9 @@ class TeeTime(models.Model):
 
     def get_date_url(self):
         return reverse('tracker:day', args=[(teetime.time).strftime('%Y-%m-%d')])
+
+    def droppable(self):
+        return self.time > datetime.today() + timedelta(days=7)
 
     def __unicode__(self):
         return self.time.strftime('%Y-%m-%d')

@@ -6,9 +6,23 @@ from guardian.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, time, date
 from calendar import month_name
+from django.template import RequestContext
 
 from tracker.models import TeeTime
 from tracker.forms import *
+
+def group_by_time(object_list):
+    raw_list = object_list
+    object_list = {}
+    for slot in raw_list:
+        if slot.time not in object_list:
+            object_list[slot.time] = []
+        temp = object_list[slot.time]
+        temp.append(slot)
+        object_list[slot.time] = temp
+    object_list = sorted(object_list.items())
+    return object_list
+
 
 class TeeTimeMixin(object):
     model = TeeTime
@@ -33,7 +47,8 @@ class Times(TeeTimeMixin, LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
-        context['object_list'] = context['object_list'].filter(time__year=datetime.now().year)
+        context['personal_list'] = context['object_list'].filter(person=RequestContext(self.request)['user'], time__gte=date.today()).order_by('time')
+        context['object_list'] = context['object_list'].filter(time__year=datetime.now().year, ).order_by('time')
         return context
 
 class Detail(TeeTimeMixin, LoginRequiredMixin, DetailView):
@@ -55,15 +70,7 @@ class Date(TeeTimeMixin, LoginRequiredMixin, ListView):
         context = super(TeeTimeMixin, self).get_context_data(**kwargs)
         context['teetime_list'].filter(time__year=self.year, time__month=self.month, time__day=self.day)
         context['month'] = "{0} {1}".format(self.year, self.month)
-        raw_list = context['object_list']
-        context['object_list'] = {}
-        for slot in raw_list:
-            if slot.time not in context['object_list']:
-                context['object_list'][slot.time] = []
-            temp = context['object_list'][slot.time]
-            temp.append(slot)
-            context['object_list'][slot.time] = temp
-        context['object_list'] = sorted(context['object_list'].items())
+        context['object_list'] = group_by_time(context['object_list'])
         if self.month == '12':
             context['month_next'] = "{0} {1}".format(int(self.year) + 1, 1)
         else:

@@ -5,13 +5,13 @@
   <h2>{{ title }}</h2>
   {% for day, teetimes in object_list %}
     <h3>{{ day.time|date:'g:i A' }}</h3>    
-    <table class="table-teetime table table-condensed table-striped">
+    <table class="table-teetime table table-condensed table-striped table-hover">
     {% for teetime in teetimes %}
       <tr>
       {% if teetime.person.name == None %}
-        <td><a href="{{ teetime.get_claim_url }}">Available</a></td>
+        <td><a href="{{ teetime.get_claim_url }}">Claim</a></td>
       {% else %}
-        <td>{{ teetime.person.name }} - <a href="{{ teetime.get_unclaim_url }}">Drop</a></td>
+      <td>{{ teetime.person.name }}{% if teetime.droppable %} - <a href="{{ teetime.get_unclaim_url }}">Drop</a>{% endif %}</td>
       {% endif %}
       {% if perms.tracker.change_teetime %}
         <td><a href="{{ teetime.get_update_url }}">Edit</a></td>

@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<table>
-  <tbody>
-  {% for object in object_list %}
-    <tr>
-      <td>{{ object }}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+  <h1>Personal Reservations</h1>
+  {% include "tracker/time_table.html" with list=personal_list %}
+  <br />
+  <h2>All Tee Times</h2>
+  {% include "tracker/time_table.html" with list=object_list %}
 {% endblock %}
