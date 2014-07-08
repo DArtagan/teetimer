@@ -9,7 +9,22 @@ div.calendars > .row table {
 }
 
 div.calendars > .row td {
+    height: 18px;
+    text-align: center;
     width: 35px;
+}
+
+div.calendars > .row td.slots {
+    background-color: #18bc9c;
+}
+
+div.calendars > .row td.slots a {
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    height: 100%;
+    text-decoration: none;
+    width: 100%;
 }
 
 .table-teetime td {
