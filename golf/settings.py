@@ -7,28 +7,26 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-$)l8lry(gn*+y=^(_&wdp4&a!1sr(odhypx6h94#b*-@!@bf6'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DEBUG', False))
+TEMPLATE_DEBUG = bool(os.environ.get('TEMPLATE_DEBUG', False))
 
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split()
 
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,58 +70,32 @@ ANONYMOUS_USER_ID = -1
 
 
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {'default': dj_database_url.config(default='sqlite://../db.sqlite3')}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = False
-
 
 # Template Directories
 TEMPLATE_DIRS = (
-    (os.path.join(PROJECT_PATH, 'templates'),)
+    (os.path.join(BASE_DIR, 'golf/templates'),)
 )
-
 
 # Static
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = (
-    ('', os.path.join(PROJECT_PATH, 'static')),
+    ('', os.path.join(BASE_DIR, 'golf/static')),
 )
 
-
-# Heroku
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-import os
-if os.getcwd() == "/app":
-    DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
-    DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
-    WEB_URL = 'http://secure-thicket-4638.herokuapp.com'
-    DEFAULT_FROM_EMAIL = 'app24113171@heroku.com'
-    MANDRILL_API_KEY = "_Gve6gHvBET4HKzgXKakIA"
-    EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+# Email
+EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+MANDRILL_API_KEY = os.environ.get('MANDRILL_API_KEY')
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
