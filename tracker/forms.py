@@ -10,6 +10,5 @@ class CreateForm(forms.ModelForm):
         widgets = {
             'time': DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
                                             "useSeconds": False,
-                                            "minuteStepping": 5,
                                             "sideBySide": True,}),
         }

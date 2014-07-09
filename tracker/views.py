@@ -123,7 +123,6 @@ class Update(TeeTimeMixin, LoginRequiredMixin, UpdateView):
     form_class = modelform_factory(TeeTime, widgets = {
         'time': DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
                                         "useSeconds": False,
-                                        "minuteStepping": 5,
                                         "sideBySide": True,}),
     })
 
