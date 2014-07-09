@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 
 class TeeTime(models.Model):
     time = models.DateTimeField()
